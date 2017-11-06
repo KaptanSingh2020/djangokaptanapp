@@ -1,0 +1,1 @@
+web: gunicorn tense_check_project.wsgi

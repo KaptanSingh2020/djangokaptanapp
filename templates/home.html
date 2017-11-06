@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Home</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'tense_check/css/home.css' %}">
+</head>
+<body style="background: -webkit-linear-gradient(left, #25c481, #25b7c4); background: linear-gradient(to right, #25c481, #25b7c4); 
+font-family: 'Roboto', sans-serif;">
+
+    <div id="container">
+
+    <div align="center">
+    <h3 style="color: #fff; text-transform: uppercase; font-weight: 300; text-align: center; margin-bottom: 10px;">Type an example of the past simple positive.</h3>
+    
+<div style="margin-bottom: 10px"><form method="post" action="">
+        {% csrf_token %}
+        {{ form }}
+        <input type="submit" value="Save">
+    </form>
+</div>
+    </div>
+
+    <div align="center">
+    <!-- Either test_res_pass or test_res_fail will show because of logic. -->
+    <table id="table1">
+
+    {% for sentence in sentences %}
+        <tr>
+        <td id="text"; style="font-size: 18px; color: #fff; padding-right: 5px">{{ sentence }}</td>
+            {% if sentence.test_res_pass %}
+        <td style="color: #fff; font-size: 18px">{{ sentence.test_res_pass }}</td>
+            {% else %}
+         <td style="color: #000; font-size: 18px">{{ sentence.test_res_fail }}</td>
+            {% endif %}
+         </tr>
+    {% endfor %}
+
+    </table>
+
+    <div class="pagination"; style="margin-top: 15px">
+    <span class="step-links">
+        {% if sentences.has_previous %}
+            <a href="?page={{ sentences.previous_page_number }}"><h3 style="font-size: 50px";>previous</h3></a>
+        {% endif %}
+
+        <span class="current">
+            Page {{ sentences.number }} of {{ sentences.paginator.num_pages }}.
+        </span>
+
+        {% if sentences.has_next %}
+            <a href="?page={{ sentences.next_page_number }}">next</a>
+        {% endif %}
+    </span>
+    </div>
+    </div>
+    </div>
+
+</body>
+</html>
